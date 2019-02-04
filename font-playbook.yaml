@@ -1,0 +1,30 @@
+---
+# sets up font
+- name: font-config
+  hosts: localhost
+  gather_facts: no
+  connection: local
+
+  vars:
+    current_dir: "{{ lookup('env', 'PWD') }}"
+    home: "{{ lookup('env', 'HOME') }}"
+
+  tasks:
+   - name: make font dir
+     file:
+         state: directory
+         path: "{{ home }}/.local/share/fonts/Unknown Vendor/TrueType/Fira Code"
+   - name: link customized font
+     file:
+         state: link
+         src: "{{ current_dir }}/FiraCode-Regular-modified.ttf"
+         dest: "{{ home }}/.local/share/fonts/Unknown Vendor/TrueType/Fira Code/Fira_Code_Regular.ttf"
+   - name: make symbols dir
+     file:
+         state: directory
+         path: "{{ home }}/.fonts/f"
+   - name: link symbols dir
+     file:
+         state: link
+         src: "{{ current_dir }}/FiraCode-Regular-Symbol.otf"
+         dest: "{{ home }}/.fonts/f/FiraCode_Regular_Symbol.otf"
